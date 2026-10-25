@@ -1,10 +1,14 @@
-# GitHub Markdown Showcase
+# GitHub Repository Showcase
 
-A hands-on reference for Markdown features supported by GitHub. The examples
-below are intended to render as demonstrations, not just show source syntax.
+An end-to-end example of a GitHub repository: its About details, community
+files, issues, pull requests, Actions workflow, and Pages site. It also includes
+common `git` and `gh` CLI commands and a catalog of GitHub Markdown features.
 
 ## Contents
 
+- [Everyday Git and GitHub CLI](#everyday-git-and-github-cli)
+- [Repository settings and this setup](#repository-settings-and-this-setup)
+- [GitHub Markdown features](#github-markdown-features)
 - [Text and headings](#text-and-headings)
 - [Links and references](#links-and-references)
 - [Images and badges](#images-and-badges)
@@ -18,7 +22,121 @@ below are intended to render as demonstrations, not just show source syntax.
 - [Math](#math)
 - [Mermaid diagrams](#mermaid-diagrams)
 - [Repository community files](#repository-community-files)
+- [Issues, pull requests, and deployment](#issues-pull-requests-and-deployment)
 - [Writing tips](#writing-tips)
+
+## Everyday Git and GitHub CLI
+
+### Git
+
+These commands cover the usual local change cycle:
+
+```sh
+git clone https://github.com/OWNER/REPOSITORY.git
+cd REPOSITORY
+git status
+git switch -c docs/my-change
+git diff
+git add README.md
+git commit -m "docs: describe the change"
+git push -u origin docs/my-change
+git pull --ff-only
+git log --oneline --graph --decorate --all
+```
+
+Use `git diff --staged` to review staged changes before committing. Use
+`git switch main` to return to the default branch and `git fetch origin` to
+refresh remote-tracking branches without changing the current branch.
+
+### GitHub CLI
+
+Authenticate once with `gh auth login`, then use `gh` to work with GitHub from
+the terminal:
+
+```sh
+gh auth status
+gh repo view OWNER/REPOSITORY
+gh issue list --repo OWNER/REPOSITORY
+gh pr list --repo OWNER/REPOSITORY
+gh workflow list --repo OWNER/REPOSITORY
+gh run list --repo OWNER/REPOSITORY
+gh release list --repo OWNER/REPOSITORY
+```
+
+Use `gh pr checks NUMBER` to inspect pull-request checks and
+`gh run view RUN_ID --log` to inspect a workflow run.
+
+## Repository settings and this setup
+
+The repository **About** panel is edited with the gear beside the panel. It
+contains the description, website URL, topics, and homepage display options for
+Releases, Deployments, and Packages. The first three can also be set with `gh`:
+
+```sh
+gh repo edit OWNER/REPOSITORY \
+	--description "A concise description" \
+	--homepage "https://example.github.io/REPOSITORY/" \
+	--add-topic documentation \
+	--add-topic github-actions
+```
+
+`--add-topic` adds topics without replacing the existing set;
+`--remove-topic` removes one. To replace all topics, use the GitHub UI or the
+`PUT /repos/{owner}/{repo}/topics` REST endpoint. In the UI, use the About gear
+to change the description, website, and topics. The **Include in the home
+page** checkboxes for Releases, Deployments, and Packages are separate UI
+settings.
+
+This repository was configured with the same CLI flow:
+
+```sh
+gh repo edit dev-ansung/Template \
+	--description "A practical showcase of GitHub Markdown, repository workflows, community files, and deployment." \
+	--homepage "https://dev-ansung.github.io/Template/" \
+	--add-topic documentation \
+	--add-topic github-actions \
+	--add-topic github-markdown \
+	--add-topic github-pages \
+	--add-topic github-cli \
+	--add-topic git \
+	--add-topic markdown
+```
+
+The repository was made public using **Settings** > **General** > **Change
+repository visibility**. Visibility changes are consequential; verify the
+contents and secrets before making a repository public. With GitHub CLI, the
+equivalent command requires an explicit confirmation flag:
+
+```sh
+gh repo edit OWNER/REPOSITORY --visibility public --accept-visibility-change-consequences
+```
+
+The repository's current visibility can be checked with
+`gh repo view OWNER/REPOSITORY`.
+
+### How the demo issue and pull request were created
+
+Create an issue first so it has a real number to reference. Then create a branch
+and open a pull request that closes the issue when merged:
+
+```sh
+gh issue create --repo OWNER/REPOSITORY --title "Describe the change" --body "Explain the goal and acceptance criteria."
+git switch -c docs/my-change
+git add README.md
+git commit -m "docs: describe the change"
+git push -u origin docs/my-change
+gh pr create --repo OWNER/REPOSITORY --base main --head docs/my-change --title "docs: describe the change" --body "Closes #ISSUE_NUMBER"
+```
+
+For this showcase, [issue #1](https://github.com/dev-ansung/Template/issues/1)
+was created with `gh issue create`. [Pull request #2](https://github.com/dev-ansung/Template/pull/2)
+was opened from a feature branch with `gh pr create` and `Closes #1`, then
+squash-merged with `gh pr merge 2 --squash --delete-branch`. GitHub closed the
+issue automatically after the merge.
+
+## GitHub Markdown features
+
+The sections below demonstrate Markdown as one feature of this repository.
 
 ## Text and headings
 
@@ -56,7 +174,7 @@ Read the [GitHub Markdown documentation][markdown-docs]. You can also visit
 
 Images use descriptive alt text. A linked image is a common pattern for badges:
 
-[![GitHub Markdown badge](https://img.shields.io/badge/GitHub-Markdown-181717?logo=github)](https://docs.github.com/en/get-started/writing-on-github)
+[![GitHub repository showcase badge](https://img.shields.io/badge/GitHub-Repository%20Showcase-181717?logo=github)](https://github.com/dev-ansung/Template)
 
 The same pattern can display build status, release versions, license, package
 downloads, or community metrics. Prefer badges that link to the page with the
@@ -293,9 +411,10 @@ can add a default PR checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
 
 ### Publish this guide with GitHub Pages
 
-This repository includes a Pages entry point in [`index.md`](index.md) and a
-deployment workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
-To publish after Pages is available for the repository:
+This repository publishes the README through [`index.md`](index.md) and the
+workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Its
+live site is [dev-ansung.github.io/Template](https://dev-ansung.github.io/Template/).
+To publish a Pages site for another repository:
 
 1. Open **Settings** > **Pages** and set **Build and deployment** > **Source**
 	to **GitHub Actions**.
@@ -304,12 +423,11 @@ To publish after Pages is available for the repository:
 3. Open **Settings** > **Pages** to find the published URL, then check the
 	workflow run if the site does not update.
 
-Pages sites are publicly visible by default. Publishing from a private source
-repository requires a GitHub plan that supports private-repository Pages. This
-repository is private and the current account is on the Free plan, so the
-workflow is ready but GitHub will not publish it unless the plan changes or the
-source repository becomes public. Do not make a private repository public just
-to enable Pages without reviewing its contents first.
+Pages sites are publicly visible by default. This showcase's source repository
+is public, Pages is configured to use GitHub Actions, and the URL above is live.
+Private-source Pages availability depends on the GitHub plan. Do not make a
+private repository public just to enable Pages without reviewing its contents
+first.
 
 ### Deploy an application with GitHub Actions
 

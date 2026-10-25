@@ -1,5 +1,5 @@
-title: GitHub Markdown Showcase
-description: A practical catalog of GitHub Markdown, repository workflows, and deployment.
+title: GitHub Repository Showcase
+description: A practical showcase of GitHub repositories, Git and GitHub CLI, community files, workflows, and deployment.
 theme: minima
 plugins:
   - jekyll-relative-links

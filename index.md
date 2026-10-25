@@ -1,6 +1,6 @@
 ---
 layout: default
-title: GitHub Markdown Showcase
+title: GitHub Repository Showcase
 ---
 
 {% include_relative README.md %}
