@@ -191,14 +191,15 @@ GitHub automatically links many repository references in supported contexts:
 
 - Issue in another repository: github/docs#46475
 - Issue in this repository: #1
+- Pull request in this repository: [#2](https://github.com/dev-ansung/Template/pull/2)
 - Commit in this repository: [3ee0556](https://github.com/dev-ansung/Template/commit/3ee0556f16f33a868e6856adf2556f265111ff3d)
 - User profile: [@dev-ansung](https://github.com/dev-ansung)
 - Emoji shortcodes: :sparkles: and :rocket:
 
 Issue references are plain text and link when the referenced issue exists.
-Commit hashes and user mentions may not auto-link in a README, so explicit
-Markdown links are used for those examples. The local issue above is a live
-example; the demo pull request will be linked here after it is opened.
+Commit hashes, user mentions, and pull request references may not auto-link in
+a README, so explicit Markdown links are used for those examples. Issue #1 and
+PR #2 are live examples; the PR closes the issue when merged.
 
 ## Footnotes
 
