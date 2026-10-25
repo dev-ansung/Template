@@ -188,15 +188,16 @@ are not a reliable way to add content to a GitHub README.
 
 GitHub automatically links many repository references in supported contexts:
 
-- Issue or pull request: `#123`
-- A reference in another repository: `owner/repository#123`
-- Commit: `7c9e3b7`
-- User mention: `@github`
-- Emoji shortcode: `:sparkles:` :sparkles: and `:rocket:` :rocket:
+- Issue in another repository: github/docs#46475
+- Commit in this repository: 3ee0556f16f33a868e6856adf2556f265111ff3d
+- User profile: @dev-ansung
+- Emoji shortcodes: :sparkles: and :rocket:
 
-Issue and pull request references resolve when GitHub can identify the
-repository and item. User mentions and emoji shortcodes are most useful in
-GitHub issues, pull requests, and discussions.
+References must be plain text, not wrapped in inline-code backticks, and must
+point to an object GitHub can resolve. A local issue or pull request reference
+such as #number only links when that item exists in this repository. This
+repository currently has no issues or pull requests, so the cross-repository
+issue above is used as a working example instead.
 
 ## Footnotes
 
