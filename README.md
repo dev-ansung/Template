@@ -172,23 +172,80 @@ Read the [GitHub Markdown documentation][markdown-docs]. You can also visit
 
 ## Images and badges
 
-Images use descriptive alt text. A linked image is a common pattern for badges:
+### Image sources and formats
 
-[![GitHub repository showcase badge](https://img.shields.io/badge/GitHub-Repository%20Showcase-181717?logo=github)](https://github.com/dev-ansung/Template)
+GitHub renders images through Markdown and a sanitized subset of HTML. Use
+descriptive alt text, keep repository assets in version control, and use a
+relative path for files in the same repository. Common examples include PNG or
+JPEG screenshots, animated GIFs, and SVG badges:
 
-The same pattern can display build status, release versions, license, package
-downloads, or community metrics. Prefer badges that link to the page with the
-details, and give each image meaningful alt text.
+```markdown
+![Architecture diagram](docs/images/architecture.png)
+![Animated walkthrough](docs/images/walkthrough.gif)
+![Remote image](https://example.com/image.jpg)
+```
 
-An image can also be linked with HTML when you need to set its dimensions or
-alignment:
+To make an image clickable, wrap it in a link. HTML is useful when you need to
+set a stable width or alignment:
+
+```markdown
+[![Project logo](docs/images/logo.png)](https://github.com/dev-ansung/Template)
+```
 
 <p align="center">
-	<img src="https://img.shields.io/badge/example-image-blue" alt="Example badge" width="180" />
+  <img src="https://img.shields.io/badge/HTML-sized-image-example-blue" alt="Example of a width-limited image" width="240" />
 </p>
 
-For repository images, use a relative path such as `docs/images/example.png`.
-GitHub also supports images uploaded to issues, pull requests, and discussions.
+GitHub also accepts images pasted or uploaded into issues, pull requests, and
+discussions, then inserts an attachment URL. Avoid relying on arbitrary HTML
+embeds; GitHub sanitizes HTML and does not allow scripts in Markdown.
+
+### Live repository badges
+
+Badges are images, commonly SVGs, that report status or link to more detail.
+These examples use real data from this repository:
+
+[![Pages workflow](https://img.shields.io/github/actions/workflow/status/dev-ansung/Template/pages.yml?branch=main&label=Pages)](https://github.com/dev-ansung/Template/actions/workflows/pages.yml)
+[![License](https://img.shields.io/github/license/dev-ansung/Template)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/dev-ansung/Template?style=social)](https://github.com/dev-ansung/Template/stargazers)
+[![Forks](https://img.shields.io/github/forks/dev-ansung/Template?style=social)](https://github.com/dev-ansung/Template/forks)
+[![Open issues](https://img.shields.io/github/issues/dev-ansung/Template)](https://github.com/dev-ansung/Template/issues)
+[![Open pull requests](https://img.shields.io/github/issues-pr/dev-ansung/Template)](https://github.com/dev-ansung/Template/pulls)
+[![Last commit](https://img.shields.io/github/last-commit/dev-ansung/Template)](https://github.com/dev-ansung/Template/commits/main)
+[![Contributors](https://img.shields.io/github/contributors/dev-ansung/Template)](https://github.com/dev-ansung/Template/graphs/contributors)
+
+This repository has no published release yet. Add a release badge when a
+version is published, for example:
+
+```markdown
+[![Latest release](https://img.shields.io/github/v/release/OWNER/REPOSITORY)](https://github.com/OWNER/REPOSITORY/releases/latest)
+```
+
+### Package, coverage, and custom badges
+
+For projects that publish packages or coverage reports, badge providers expose
+different endpoints. Replace the placeholders with the real package or
+repository identifiers and link each badge to its details page:
+
+```markdown
+[![Coverage](https://codecov.io/gh/OWNER/REPOSITORY/branch/main/graph/badge.svg)](https://codecov.io/gh/OWNER/REPOSITORY)
+[![npm version](https://img.shields.io/npm/v/PACKAGE)](https://www.npmjs.com/package/PACKAGE)
+[![npm downloads](https://img.shields.io/npm/dm/PACKAGE)](https://www.npmjs.com/package/PACKAGE)
+[![PyPI version](https://img.shields.io/pypi/v/PACKAGE)](https://pypi.org/project/PACKAGE/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/PACKAGE)](https://pypi.org/project/PACKAGE/)
+[![Docker pulls](https://img.shields.io/docker/pulls/OWNER/IMAGE)](https://hub.docker.com/r/OWNER/IMAGE)
+```
+
+Static/custom labels can use Shields.io's badge endpoint:
+
+```markdown
+![Status: experimental](https://img.shields.io/badge/status-experimental-orange)
+```
+
+There is no finite list of badges supported by GitHub: a badge is an image URL
+provided by GitHub or another service. Choose badges that report maintained,
+useful information, and include alt text so their purpose remains clear if an
+image fails to load.
 
 ## Lists and task lists
 
