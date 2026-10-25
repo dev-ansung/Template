@@ -190,15 +190,16 @@ are not a reliable way to add content to a GitHub README.
 GitHub automatically links many repository references in supported contexts:
 
 - Issue in another repository: github/docs#46475
-- Commit in this repository: 3ee0556f16f33a868e6856adf2556f265111ff3d
-- User profile: @dev-ansung
+- Issue in this repository: #1
+- Pull request in this repository: [#2](https://github.com/dev-ansung/Template/pull/2)
+- Commit in this repository: [3ee0556](https://github.com/dev-ansung/Template/commit/3ee0556f16f33a868e6856adf2556f265111ff3d)
+- User profile: [@dev-ansung](https://github.com/dev-ansung)
 - Emoji shortcodes: :sparkles: and :rocket:
 
-References must be plain text, not wrapped in inline-code backticks, and must
-point to an object GitHub can resolve. A local issue or pull request reference
-such as #number only links when that item exists in this repository. This
-repository currently has no issues or pull requests, so the cross-repository
-issue above is used as a working example instead.
+Issue references are plain text and link when the referenced issue exists.
+Commit hashes, user mentions, and pull request references may not auto-link in
+a README, so explicit Markdown links are used for those examples. Issue #1 and
+PR #2 are live examples; the PR closes the issue when merged.
 
 ## Footnotes
 
@@ -258,6 +259,69 @@ or applied license, so replace placeholders such as `[year]` and `[fullname]`
 before committing it.
 
 For this repository, the selected MIT terms are in [`LICENSE`](LICENSE).
+
+## Issues, pull requests, and deployment
+
+### Create an issue and linked pull request
+
+Enable **Issues** under **Settings** > **General** > **Features** if the
+repository does not show an Issues tab. Create an issue from **Issues** >
+**New issue**, or use GitHub CLI:
+
+```sh
+gh issue create --repo OWNER/REPOSITORY --title "Describe the change" --body "Explain the problem and expected result."
+```
+
+An issue number becomes a working reference such as `#1` once the issue exists.
+Use issue forms or Markdown templates in `.github/ISSUE_TEMPLATE/` when a
+project needs consistent reports.
+
+For a change, create a branch, commit, and push it, then open a pull request:
+
+```sh
+git switch -c docs/my-change
+git add README.md
+git commit -m "docs: describe the change"
+git push -u origin docs/my-change
+gh pr create --base main --title "docs: describe the change" --body "Closes #1"
+```
+
+Replace `main` if the repository uses a different default branch. `Closes #1`
+links the pull request to the issue and closes it when the PR is merged. Use
+`Refs #1` when the PR is related but should not close the issue. A repository
+can add a default PR checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
+
+### Publish this guide with GitHub Pages
+
+This repository includes a Pages entry point in [`index.md`](index.md) and a
+deployment workflow in [`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+To publish after Pages is available for the repository:
+
+1. Open **Settings** > **Pages** and set **Build and deployment** > **Source**
+	to **GitHub Actions**.
+2. Push a change to `main`, or run the **Deploy GitHub Pages** workflow from
+	the **Actions** tab. The workflow builds the Jekyll site and deploys it.
+3. Open **Settings** > **Pages** to find the published URL, then check the
+	workflow run if the site does not update.
+
+Pages sites are publicly visible by default. Publishing from a private source
+repository requires a GitHub plan that supports private-repository Pages. This
+repository is private and the current account is on the Free plan, so the
+workflow is ready but GitHub will not publish it unless the plan changes or the
+source repository becomes public. Do not make a private repository public just
+to enable Pages without reviewing its contents first.
+
+### Deploy an application with GitHub Actions
+
+For an application, add a workflow under `.github/workflows/` that builds and
+tests on pull requests, then deploys only from the intended branch (usually the
+default branch). Use a deployment action that matches the hosting provider, and
+upload the build output as an artifact between jobs when needed. Keep workflow
+permissions minimal, store credentials in **Settings** > **Secrets and
+variables** (prefer environment secrets for production), and use a protected
+GitHub Environment when approvals are required. Never put tokens or cloud
+credentials in the repository or README. Review the workflow logs and deployed
+URL after each release.
 
 ## Writing tips
 

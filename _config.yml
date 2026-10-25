@@ -1,0 +1,8 @@
+title: GitHub Markdown Showcase
+description: A practical catalog of GitHub Markdown, repository workflows, and deployment.
+theme: minima
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: false
